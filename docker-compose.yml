@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: rabbit-db
+    restart: always
+    environment:
+      POSTGRES_USER: rabbit_user
+      POSTGRES_PASSWORD: rabbit_password
+      POSTGRES_DB: rabbit_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./application
+    container_name: rabbit-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/rabbit_db
+      SPRING_DATASOURCE_USERNAME: rabbit_user
+      SPRING_DATASOURCE_PASSWORD: rabbit_password
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./GUI
+    container_name: rabbit-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  db-data:
+
