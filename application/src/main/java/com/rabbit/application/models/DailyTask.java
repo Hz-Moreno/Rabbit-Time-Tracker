@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "daily_tasks")
 public class DailyTask {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "day_id", nullable = false)
     private Day day;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "start_time", nullable = false)
     private String startTime;

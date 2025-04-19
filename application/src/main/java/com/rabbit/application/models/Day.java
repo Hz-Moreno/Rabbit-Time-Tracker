@@ -7,20 +7,21 @@ import com.rabbit.application.models.DailyTask;
 
 @Entity
 @Table(name = "days")
-public class Day {  // Renamed to singular "Day" as it represents one day
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Day {
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @Column(name = "title", nullable = false)  // Changed "name" to "title" for clarity
-    private String title;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "day")
     private List<DailyTask> tasks = new ArrayList<>();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
 
     public Day() {}
 

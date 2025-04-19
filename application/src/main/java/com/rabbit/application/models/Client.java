@@ -9,11 +9,15 @@ import java.util.List;
 @Entity
 @Table(name = "clients")
 public class Client implements UserInterface {
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
-
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Day> days = new ArrayList<>();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -21,9 +25,6 @@ public class Client implements UserInterface {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     public Client(){}
 
